@@ -15,6 +15,7 @@ class Logger(object):
             'green': '\033[0;32m\b\b\b\b\b\b\b\b',
             'red': '\033[0;31m',
             'yellow': '\033[0;33m',
+            'light_grey': '\033[38;5;250m',
             'end': '\033[0m'
         }
         self.name = name
@@ -42,27 +43,44 @@ class Logger(object):
         print msg
         self.flush();
 
-    def info(self, msg):
-        msg = self.make_msg(msg, self._INFO)
+    def info(self, msg, *args):
+        msg = self.make_msg(
+            msg + ''.join(args), self._INFO
+        )
         self.log(msg)
 
-    def warning(self, msg):
-        msg = self.make_msg(msg, self._WARNING, color='yellow')
+    def warning(self, msg, *args):
+        msg = self.make_msg(msg + ''.join(args),
+            self._WARNING,
+            color='yellow'
+        )
         self.log(msg)
 
-    def debug(self, msg):
+    def debug(self, msg, *args):
         if (self.debug_active):
-            msg = self.make_msg(msg, self._DEBUG)
+            msg = self.make_msg(
+                msg + ''.join(args),
+                self._DEBUG,
+                color='light_grey'
+            )
             self.log(msg)
         else:
             pass
 
-    def error(self, msg):
-        msg = self.make_msg(msg, self._ERROR, color='red')
+    def error(self, msg, *args):
+        msg = self.make_msg(
+            msg + ''.join(args),
+            self._ERROR,
+            color='red'
+        )
         self.log(msg)
 
-    def success(self, msg):
-        msg = self.make_msg(msg, self._ERROR, color='green')
+    def success(self, msg, *args):
+        msg = self.make_msg(
+            msg + ''.join(args),
+            self._ERROR,
+            color='green'
+        )
         self.log(msg)
 
     def line(self):

@@ -12,6 +12,7 @@ class Logger(object):
         self._DEBUG = '[D]'
         self._SEP_CHAR = '-'
         self._colors = {
+            'green': '\033[0;32m\b\b\b\b\b\b\b\b',
             'red': '\033[0;31m',
             'yellow': '\033[0;33m',
             'end': '\033[0m'
@@ -60,7 +61,9 @@ class Logger(object):
         msg = self.make_msg(msg, self._ERROR, color='red')
         self.log(msg)
 
-        # raise NameError('Error reported, aborting render script!')
+    def success(self, msg):
+        msg = self.make_msg(msg, self._ERROR, color='green')
+        self.log(msg)
 
     def line(self):
         """

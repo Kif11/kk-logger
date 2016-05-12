@@ -44,22 +44,21 @@ class Logger(object):
         self.flush();
 
     def info(self, msg, *args):
-        msg = self.make_msg(
-            str(msg) + ''.join(args), self._INFO
-        )
+        msg = self.make_msg(''.join(str(args)), self._INFO)
         self.log(msg)
 
-    def warning(self, msg, *args):
-        msg = self.make_msg(str(msg) + ''.join(args),
+    def warning(self, *args):
+        msg = self.make_msg(
+            ''.join(str(args)),
             self._WARNING,
             color='yellow'
         )
         self.log(msg)
 
-    def debug(self, msg, *args):
+    def debug(self, *args):
         if (self.debug_active):
             msg = self.make_msg(
-                str(msg) + ''.join(args),
+                ''.join(str(args)),
                 self._DEBUG,
                 color='light_grey'
             )
@@ -69,7 +68,7 @@ class Logger(object):
 
     def error(self, msg, *args):
         msg = self.make_msg(
-            str(msg) + ''.join(args),
+            ''.join(str(args)),
             self._ERROR,
             color='red'
         )
@@ -77,7 +76,7 @@ class Logger(object):
 
     def success(self, msg, *args):
         msg = self.make_msg(
-            str(msg) + ''.join(args),
+            ''.join(str(args)),
             self._ERROR,
             color='green'
         )

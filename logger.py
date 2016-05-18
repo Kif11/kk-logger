@@ -43,8 +43,8 @@ class Logger(object):
         print msg
         self.flush();
 
-    def info(self, msg, *args):
-        msg = self.make_msg(''.join(str(args)), self._INFO)
+    def info(self, *args):
+        msg = self.make_msg(''.join(args), self._INFO)
         self.log(msg)
 
     def warning(self, *args):
@@ -66,17 +66,17 @@ class Logger(object):
         else:
             pass
 
-    def error(self, msg, *args):
+    def error(self, *args):
         msg = self.make_msg(
-            ''.join(str(args)),
+            ''.join(args),
             self._ERROR,
             color='red'
         )
         self.log(msg)
 
-    def success(self, msg, *args):
+    def success(self, *args):
         msg = self.make_msg(
-            ''.join(str(args)),
+            ''.join(args),
             self._ERROR,
             color='green'
         )

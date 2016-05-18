@@ -4,7 +4,7 @@ import datetime
 
 class Logger(object):
 
-    def __init__ (self, name='', debug=True, log_time=False, log_type=True):
+    def __init__ (self, name='', debug=True, log_time=False, log_type=True, log_color=False):
 
         self._INFO = '[+]'
         self._WARNING = '[-]'
@@ -21,6 +21,7 @@ class Logger(object):
         self.name = name
         self.log_time = log_time
         self.log_type = log_type
+        self.log_color = log_color
 
         self.debug_active = debug
 
@@ -34,12 +35,15 @@ class Logger(object):
             msg_body = msg_body + '%s' % i
 
         cur_time = datetime.datetime.now().strftime('%H:%M:%S')
+        msg = msg_body
         if self.log_time:
-            msg = '%s %s' %(cur_time, msg_body)
+            msg = '%s %s' % (cur_time, msg)
         if self.name:
-            msg = '%s: %s' %(self.name, msg_body)
+            msg = '%s: %s' % (self.name, msg)
         if self.log_type:
-            msg = '%s%s %s%s' %(color, msg_type, msg_body, self._colors['end'])
+            msg = '%s %s' % (msg_type, msg)
+        if self.log_color:
+            msg = '%s%s%s' % (color, msg, self._colors['end'])
 
         return msg
 

@@ -15,6 +15,10 @@ log = Logger()
 
 log.info('Hello I your logger!')
 ```
+Output:
+```
+[+] Hello I your logger!
+```
 
 You can specify options like this:
 ```python
@@ -23,4 +27,10 @@ log = Logger(name='MyApp', log_time=True)
 
 log.info('Hello I your logger!')
 log.debug('Debug information: ', '"this is debug info body"')
+```
+
+Output:
+```
+[+] MyApp: 00:17:51 Hello I your logger!
+[D] MyApp: 00:17:51 Debug information: "this is debug info body"
 ```

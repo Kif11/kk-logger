@@ -29,13 +29,17 @@ class Logger(object):
         if color in self._colors.keys():
             color = self._colors[color]
 
+        msg_body = ''
+        for i in msg:
+            msg_body = msg_body + '%s' % i
+
         cur_time = datetime.datetime.now().strftime('%H:%M:%S')
         if self.log_time:
-            msg = '%s %s' %(cur_time, msg)
+            msg = '%s %s' %(cur_time, msg_body)
         if self.name:
-            msg = '%s: %s' %(self.name, msg)
+            msg = '%s: %s' %(self.name, msg_body)
         if self.log_type:
-            msg = '%s%s %s%s' %(color, msg_type, msg, self._colors['end'])
+            msg = '%s%s %s%s' %(color, msg_type, msg_body, self._colors['end'])
 
         return msg
 
@@ -44,42 +48,26 @@ class Logger(object):
         self.flush();
 
     def info(self, *args):
-        msg = self.make_msg(''.join(args), self._INFO)
+        msg = self.make_msg(args, self._INFO)
         self.log(msg)
 
     def warning(self, *args):
-        msg = self.make_msg(
-            ''.join(str(args)),
-            self._WARNING,
-            color='yellow'
-        )
+        msg = self.make_msg(args, self._WARNING, 'yellow')
         self.log(msg)
 
     def debug(self, *args):
-        if (self.debug_active):
-            msg = self.make_msg(
-                ''.join(str(args)),
-                self._DEBUG,
-                color='light_grey'
-            )
+        if self.debug_active:
+            msg = self.make_msg(args, self._DEBUG, 'light_grey')
             self.log(msg)
         else:
             pass
 
     def error(self, *args):
-        msg = self.make_msg(
-            ''.join(args),
-            self._ERROR,
-            color='red'
-        )
+        msg = self.make_msg(args, self._ERROR, 'red')
         self.log(msg)
 
     def success(self, *args):
-        msg = self.make_msg(
-            ''.join(args),
-            self._ERROR,
-            color='green'
-        )
+        msg = self.make_msg(args, self._ERROR, 'green')
         self.log(msg)
 
     def line(self):

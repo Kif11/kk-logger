@@ -4,7 +4,7 @@ import datetime
 
 class Logger(object):
 
-    def __init__ (self, name='', debug=True, log_time=False, log_type=True, log_color=False):
+    def __init__ (self, name='', debug=True, log_time=False, log_type=True, log_color=True):
 
         self._INFO = '[+]'
         self._WARNING = '[-]'
@@ -21,7 +21,11 @@ class Logger(object):
         self.name = name
         self.log_time = log_time
         self.log_type = log_type
-        self.log_color = log_color
+
+        if sys.platform == 'darwin':
+            self.log_color = log_color
+        elif sys.platform == 'win32':
+            self.log_color = False
 
         self.debug_active = debug
 

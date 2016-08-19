@@ -1,4 +1,5 @@
 from logger import Logger
+import subprocess
 
 log = Logger(name='STEST')
 
@@ -33,7 +34,6 @@ log.error(obj)
 log.warning(obj)
 log.success(obj)
 
-
 class PureObject(object):
     def __init__(self):
         self.msg = 'Hi I am a pure object'
@@ -54,3 +54,6 @@ clog.debug('This is color debug message')
 clog.error('This is color error message')
 clog.warning('This is color warning message')
 clog.success('This is color success message')
+
+# External process log test
+subprocess.Popen(['python', 'tests/external.py'])

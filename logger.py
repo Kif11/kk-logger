@@ -4,7 +4,7 @@ import datetime
 
 class Logger(object):
 
-    def __init__ (self, name='', debug=True, log_time=False, log_type=True, log_color=True):
+    def __init__ (self, name='', debug=True, log_time=False, log_type=True, log_color=''):
 
         self._INFO = '[+]'
         self._WARNING = '[-]'
@@ -18,16 +18,39 @@ class Logger(object):
             'light_grey': '\033[38;5;250m',
             'end': '\033[0m'
         }
+
+        self.is_tty = sys.stdin.isatty() # True if running from a terminal
+
         self.name = name
-        self.log_time = log_time
+
+        if self.is_tty:
+            self.log_time = log_time
+        else:
+            self.log_time = True
+
         self.log_type = log_type
+        self.log_color = log_color
+        self.debug_active = debug
+
+        if self.log_color:
+            pass
+        else:
+            self.log_color = self._use_colors()
+
+    def _use_colors(self):
+
+        # Do not use collor if running not within a terminal
+        if not self.is_tty:
+            return False
 
         if sys.platform == 'darwin':
-            self.log_color = log_color
+            return True
         elif sys.platform == 'win32':
-            self.log_color = False
-
-        self.debug_active = debug
+            return False
+        elif sys.platform == 'linux2':
+            return False
+        else:
+            return False
 
     def make_msg(self, msg, msg_type = '', color=''):
 
@@ -41,7 +64,7 @@ class Logger(object):
         cur_time = datetime.datetime.now().strftime('%H:%M:%S')
         msg = msg_body
         if self.log_time:
-            msg = '%s %s' % (cur_time, msg)
+            msg = '%s - %s' % (cur_time, msg)
         if self.name:
             msg = '%s: %s' % (self.name, msg)
         if self.log_type:
@@ -80,7 +103,7 @@ class Logger(object):
 
     def line(self):
         """
-        Print separation line on 80 chars.
+        Print separation line of 80 chars.
         """
         self.log(self._SEP_CHAR * 80)
 
